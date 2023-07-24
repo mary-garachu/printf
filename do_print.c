@@ -13,8 +13,7 @@ int do_print(const char *fmt, int *pos, va_list list, char buffer[])
 	int iter, chrs_print = 0, printed_chr = -1;
 	fmt_t fmt_types[] = {
 		{'c', print_char}, {'s', print_string}, {'%', print_percent},
-		{'i', print_int},
-		{'d', print_int}, {'\0', NULL}
+		{'i', print_int}, {'d', print_int}
 	}
 	for (iter = 0; fmt_types[iter].fmt != '\0'; iter++)
 		if (fmt[*pos] == fmt_types[iter].fmt)
