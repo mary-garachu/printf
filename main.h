@@ -1,8 +1,13 @@
 #ifndef MAIN_H
-#define MIN_H
-#include <stdarg.h>
-#include <stdio.h>
+#define MAIN_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <limits.h>
+#include <unistd.h>
+
+int _putchar(char c);
 int _printf(const char *format, ...);
 
 #endif
