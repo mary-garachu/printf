@@ -14,12 +14,12 @@ int do_print(const char *fmt, int *pos, va_list list, char buffer[])
 	fmt_t fmt_types[] = {
 		{'c', print_char}, {'s', print_string}, {'%', print_percent},
 		{'i', print_int}, {'d', print_int}
-	}
+	};
 	for (iter = 0; fmt_types[iter].fmt != '\0'; iter++)
 		if (fmt[*pos] == fmt_types[iter].fmt)
 			return (fmt_types[iter].fn(list, buffer));
 
-	if (fmt.types[iter].fmt == '\0')
+	if (fmt_types[iter].fmt == '\0')
 	{
 		if (fmt[*pos] == '\0')
 			return (-1);
@@ -29,5 +29,5 @@ int do_print(const char *fmt, int *pos, va_list list, char buffer[])
 		chrs_print += write(1, &fmt[*pos], 1);
 		return (chrs_print);
 	}
-	return (chrs_print);
+	return (printed_chr);
 }

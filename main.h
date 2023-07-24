@@ -21,7 +21,7 @@ int do_print(const char *fmt, int *pos, va_list list, char buffer[]);
 struct fmt
 {
 	char fmt;
-	int (*fn)(va_list, char[], int, int, int, int);
+	int (*fn)(va_list, char[]);
 };
 /**
  * typedef struct fmt fmt_t - struct op
@@ -29,5 +29,10 @@ struct fmt
  * @fmt_t: function associated
  */
 typedef struct fmt fmt_t;
+
+int print_char(va_list types, char buffer[]);
+int print_string(va_list types, char buffer[]);
+int print_percent(va_list types, char buffer[]);
+int print_int(va_list types, char buffer[]);
 
 #endif
