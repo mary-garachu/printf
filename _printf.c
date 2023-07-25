@@ -5,11 +5,12 @@ void print_buff(char buffer[], int *buff_chrs);
 /**
  * _printf - printf function
  * @format: the format
- * Return: printed chr
+ * Return: printed characters
  */
 int _printf(const char *format, ...)
 {
-	int iter, printed = 0, printed_chr = 0, buff_chrs = 0;
+	int iter, printed = 0, printed_chr = 0;
+	int flags, width, precision, size, buff_chrs = 0;
 	va_list list;
 	char buffer[BUFF_SIZE];
 
@@ -30,13 +31,19 @@ int _printf(const char *format, ...)
 		else
 		{
 			print_buff(buffer, &buff_chrs);
+			flags = get_flags(format, &iter);
+			width = get_width(format, &iter, list);
+			precision = get_precision(format, &iter, list);
+			size = get_size(format, &iter);
 			++iter;
-			printed = do_print(format, &iter, list, buffer);
+			printed = do_print(format, &iter, list, buffer, flags,
+					 width, precision, size);
 			if (printed == -1)
 				return (-1);
 			printed_chr += printed;
 		}
 	}
+
 	print_buff(buffer, &buff_chrs);
 	va_end(list);
 	return (printed_chr);
