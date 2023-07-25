@@ -43,7 +43,7 @@ int handle_char(char c, char buffer[], int flags,
 }
 /**
  * write_number - handle printing of numeric values
- * @is_neg: indicates whether the number is negative
+ * @is_negative: indicates whether the number is negative
  * @n: number for printing
  * @buffer: character array to handle print
  * @flags:formatting options
@@ -52,7 +52,7 @@ int handle_char(char c, char buffer[], int flags,
  * @size: represents size
  * Return: character printed
  */
-int write_number(int is_neg, int n, char buffer[],
+int write_number(int is_negative, int n, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	int length = BUFF_SIZE - n - 1;
@@ -132,7 +132,7 @@ int write_num(int n, char buffer[], int flags, int width, int prec,
 
 /**
  * write_unsgnd - printing of an unsigned numeric value
- * @is_neg: negative number
+ * @is_negative: negative number
  * @n: number for printing
  * @buffer: character array
  * @flags: formatting options
@@ -141,13 +141,13 @@ int write_num(int n, char buffer[], int flags, int width, int prec,
  * @size: rep size
  * Return: printed character
  */
-int write_unsgnd(int is_neg, int n, char buffer[], int flags, int width,
+int write_unsgnd(int is_negative int n, char buffer[], int flags, int width,
 		int precision, int size)
 {
 	int length = BUFF_SIZE - n - 1, i = 0;
 	char p = ' ';
 
-	UNUSED(is_neg);
+	UNUSED(is_negative);
 	UNUSED(size);
 
 	if (precision == 0 && n == BUFF_SIZE - 2 && buffer[n] == '0')

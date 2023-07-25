@@ -12,8 +12,8 @@
  * @size: specify size
  * Return: 1 or 2;
  */
-int do_print(const char *fmt, int *pos, va_list list, char buffer[], int flags,
-		int width, int precision, int size)
+int do_print(const char *fmt, int *n, va_list list, char buffer[],
+	int flags, int width, int precision, int size)
 {
 	int iter, chrs_print = 0, printed_chr = -1;
 	fmt_t fmt_types[] = {
@@ -24,26 +24,26 @@ int do_print(const char *fmt, int *pos, va_list list, char buffer[], int flags,
 		{'r', print_reverse}, {'R', print_rot13string}, {'\0', NULL}
 	};
 	for (iter = 0; fmt_types[iter].fmt != '\0'; iter++)
-		if (fmt[*pos] == fmt_types[iter].fmt)
+		if (fmt[*n] == fmt_types[iter].fmt)
 			return (fmt_types[iter].fn(list, buffer, flags, width, precision, size));
 
 	if (fmt_types[iter].fmt == '\0')
 	{
-		if (fmt[*pos] == '\0')
+		if (fmt[*n] == '\0')
 			return (-1);
 		chrs_print += write(1, "%%", 1);
-		if (fmt[*pos - 1] == ' ')
+		if (fmt[*n - 1] == ' ')
 			chrs_print += write(1, " ", 1);
 		else if (width)
 		{
-			--(*pos);
-			while (fmt[*pos] != ' ' && fmt[*pos] != '%')
-				--(*pos);
-			if (fmt[*pos] == ' ')
-				--(*pos);
+			--(*n);
+			while (fmt[*n] != ' ' && fmt[*n] != '%')
+				--(*n);
+			if (fmt[*n] == ' ')
+				--(*n);
 			return (1);
 		}
-		chrs_print += write(1, &fmt[*pos], 1);
+		chrs_print += write(1, &fmt[*n], 1);
 		return (chrs_print);
 	}
 	return (printed_chr);

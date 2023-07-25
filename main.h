@@ -2,11 +2,10 @@
 #define MAIN_H
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdarg.h>
-#include <limits.h>
 #include <unistd.h>
 
+#define UNUSED(x) (void) (x)
 #define BUFF_SIZE 1024
 
 /* watchout_flags */
@@ -20,12 +19,6 @@
 #define S_LONG 2
 #define S_SHORT 1
 
-
-int _putchar(char c);
-int _printf(const char *format, ...);
-int do_print(const char *fmt, int *pos, va_list list, char buffer[],
-int flags, int width, int precision, int size);
-
 /**
  * struct fmt - struct op
  * @fmt: the format
@@ -36,12 +29,16 @@ struct fmt
 	char fmt;
 	int (*fn)(va_list, char[], int, int, int, int);
 };
+
 /**
  * typedef struct fmt fmt_t - struct op
  * @fmt: the format
  * @fmt_t: function associated
  */
 typedef struct fmt fmt_t;
+
+int _printf(const char *format, ...);
+int do_print(const char *fmt, int *iter, va_list list, char buffer[], int flags, int width, int precision, int size)
 
 int print_char(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
@@ -90,24 +87,24 @@ int print_reverse(va_list types, char buffer[],
 int print_rot13string(va_list types, char buffer[],
 	int flags, int width, int precision, int size);
 
+int handle_char(char c, char buffer[], int flags, int width,
+		int precision, int size);
 
-int handle_write_char(char c, char buffer[],
-	int flags, int width, int precision, int size);
-int write_number(int is_positive, int ind, char buffer[],
-	int flags, int width, int precision, int size);
-int write_num(int ind, char bff[], int flags, int width, int precision,
-	int length, char padd, char extra_c);
-int write_pointer(char buffer[], int ind, int length,
-	int width, int flags, char padd, char extra_c, int padd_start);
-int write_unsgnd(int is_negative, int ind,
-char buffer[],
-	int flags, int width, int precision, int size);
+int write_number(int is_positive, int n, char buffer[], int flags,
+		int width, int precision, int size);
 
+int write_num(int n, char bff[], int flags, int width,
+		int precision, int length, char p, char extr_ch);
+
+int write_pointer(char buffer[], int n, int length, int width,
+		int flags, char p, char extr_ch, int p_start);
+
+int write_unsgnd(int is_negative, int n, char buffer[],
+		int flags, int width, int precision, int size);
 
 int is_printable(char);
 int append_hexa_code(char, char[], int);
 int is_digit(char);
-
 
 long int convert_size_number(long int num, int size);
 long int convert_size_unsgnd(unsigned long int num, int size);
