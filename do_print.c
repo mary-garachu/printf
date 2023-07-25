@@ -1,50 +1,49 @@
 #include "main.h"
-
 /**
- * do_print - prints argument based on type
- * @fmt: formatted string to print arguments
- * @pos: pointer to an integer variable for current position
- * @list: arguments to be printed
- * @buffer: array to handle print
- * @flags: calculate active flags
- * @width: gets width
- * @precision: precision specification
- * @size: specify size
+ * handle_print - Prints an argument based on its type
+ * @fmt: Formatted string in which to print the arguments.
+ * @list: List of arguments to be printed.
+ * @ind: ind.
+ * @buffer: Buffer array to handle print.
+ * @flags: Calculates active flags
+ * @width: get width.
+ * @precision: Precision specification
+ * @size: Size specifier
  * Return: 1 or 2;
  */
-int do_print(const char *fmt, int *n, va_list list, char buffer[],
+int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
 	int flags, int width, int precision, int size)
 {
-	int iter, chrs_print = 0, printed_chr = -1;
+	int i, unknow_len = 0, printed_chars = -1;
 	fmt_t fmt_types[] = {
 		{'c', print_char}, {'s', print_string}, {'%', print_percent},
 		{'i', print_int}, {'d', print_int}, {'b', print_binary},
-		{'u', print_unsigned}, {'0', print octal}, {'x', print_hexadecimal}
+		{'u', print_unsigned}, {'o', print_octal}, {'x', print_hexadecimal},
 		{'X', print_hexa_upper}, {'p', print_pointer}, {'S', print_non_printable},
 		{'r', print_reverse}, {'R', print_rot13string}, {'\0', NULL}
 	};
-	for (iter = 0; fmt_types[iter].fmt != '\0'; iter++)
-		if (fmt[*n] == fmt_types[iter].fmt)
-			return (fmt_types[iter].fn(list, buffer, flags, width, precision, size));
+	for (i = 0; fmt_types[i].fmt != '\0'; i++)
+		if (fmt[*ind] == fmt_types[i].fmt)
+			return (fmt_types[i].fn(list, buffer, flags, width, precision, size));
 
-	if (fmt_types[iter].fmt == '\0')
+	if (fmt_types[i].fmt == '\0')
 	{
-		if (fmt[*n] == '\0')
+		if (fmt[*ind] == '\0')
 			return (-1);
-		chrs_print += write(1, "%%", 1);
-		if (fmt[*n - 1] == ' ')
-			chrs_print += write(1, " ", 1);
+		unknow_len += write(1, "%%", 1);
+		if (fmt[*ind - 1] == ' ')
+			unknow_len += write(1, " ", 1);
 		else if (width)
 		{
-			--(*n);
-			while (fmt[*n] != ' ' && fmt[*n] != '%')
-				--(*n);
-			if (fmt[*n] == ' ')
-				--(*n);
+			--(*ind);
+			while (fmt[*ind] != ' ' && fmt[*ind] != '%')
+				--(*ind);
+			if (fmt[*ind] == ' ')
+				--(*ind);
 			return (1);
 		}
-		chrs_print += write(1, &fmt[*n], 1);
-		return (chrs_print);
+		unknow_len += write(1, &fmt[*ind], 1);
+		return (unknow_len);
 	}
-	return (printed_chr);
+	return (printed_chars);
 }
